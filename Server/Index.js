@@ -35,13 +35,15 @@ app.use("/api/channel", ChannelRoutes);
 // code for deployment
 
 if (process.env.NODE_ENV === "production") {
-  const dirPath = path.resolve();
+  const dirPath = path.resolve(); // This gives you the absolute path of the current directory
 
-  app.use(express.static("./Client/dist"));
+  app.use(express.static(path.join(dirPath, "Client", "dist")));
+
   app.get("*", (req, res) => {
-    res.sendFile(path.resolve(dirPath, "./Client/dist","index.html"));
+    res.sendFile(path.join(dirPath, "Client", "dist", "index.html"));
   });
 }
+
 
 
 const server = app.listen(port, () =>{
