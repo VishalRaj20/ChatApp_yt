@@ -8,6 +8,7 @@ import contactsRoutes from "./routes/ContactsRoutes.js";
 import setupSocket from "./socket.js";
 import MessagesRoutes from "./routes/MessagesRoutes.js";
 import ChannelRoutes from "./routes/ChannelRoutes.js";
+import path from "path";
 
 dotenv.config();
 
@@ -30,6 +31,18 @@ app.use('/api/auth', authRoutes);
 app.use('/api/contacts', contactsRoutes);
 app.use('/api/messages', MessagesRoutes);
 app.use("/api/channel", ChannelRoutes);
+
+// code for deployment
+
+if (process.env.NODE_ENV === "production") {
+  const dirPath = path.resolve();
+
+  app.use(express.static("./Client/dist"));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(dirPath, "./Client/dist","index.html"));
+  });
+}
+
 
 const server = app.listen(port, () =>{
     console.log(`Server is running at Port: ${port}`);

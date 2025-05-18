@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import Auth from '../src/pages/auth/Auth.jsx'
-import Chat from '../src/pages/chat/Chat.jsx'
-import Profile from '../src/pages/profile/Profile.jsx'
+import Auth from './pages/auth/Auth.jsx'
+import Chat from './pages/chat/Chat.jsx'
+import Profile from './pages/profile/Profile.jsx'
 import { Toaster } from 'react-hot-toast';
 import { useAppStore } from './store/index.js'
 import { GET_USER_INFO } from './utils/constants.js'
