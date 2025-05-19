@@ -8,7 +8,8 @@ import contactsRoutes from "./routes/ContactsRoutes.js";
 import setupSocket from "./socket.js";
 import MessagesRoutes from "./routes/MessagesRoutes.js";
 import ChannelRoutes from "./routes/ChannelRoutes.js";
-import path from "path";
+import path from "path";import path from "path";
+import { fileURLToPath } from "url";
 
 dotenv.config();
 
@@ -34,15 +35,22 @@ app.use("/api/channel", ChannelRoutes);
 
 // code for deployment
 
-if (process.env.NODE_ENV === "production") {
-  const dirPath = path.resolve(); // This gives you the absolute path of the current directory
 
-  app.use(express.static(path.join(dirPath, "Client", "dist")));
+
+// This works in both local and hosted environments like Render
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+if (process.env.NODE_ENV === "production") {
+  const clientDistPath = path.join(__dirname, "..", "Client", "dist");
+
+  app.use(express.static(clientDistPath));
 
   app.get("*", (req, res) => {
-    res.sendFile(path.join(dirPath, "Client", "dist", "index.html"));
+    res.sendFile(path.join(clientDistPath, "index.html"));
   });
 }
+
 
 
 
